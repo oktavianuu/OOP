@@ -14,3 +14,7 @@ class Duck:
 duckling = Duck(height=10, weight=3.4, sex='Male')
 drake = Duck(height=25, weight=3.7, sex='Male')
 hen = Duck(height=20, weight=3.4, sex='Female')
+
+# accessing attribute
+drake.quack()
+print(duckling.height)
