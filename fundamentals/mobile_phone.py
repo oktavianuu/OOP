@@ -22,3 +22,7 @@ print(phones[0].call(number='911'))
 
 for phone in phones:
     print(phone.turn_off())
+
+okta.phone_color = 'black'
+
+print(okta.__dict__)
