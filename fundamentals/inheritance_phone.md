@@ -47,6 +47,7 @@ print('Fixed phone received "{}" serial number'.format(fphone.SN))
 print('Mobile phone received "{}" serial number'.format(mphone.SN))
 ```
 
+#### The Superclass: `Phone` (The Master Blueprint)
 The Phone class is the generic blueprint for anything that can make a call. It establishes the two crucial, shared attributes for all descendants:
 |Code Line(s)|Concept|Detailed Explanation|
 |---|---|---|
@@ -55,3 +56,30 @@ The Phone class is the generic blueprint for anything that can make a call. It e
 |`self.number = number`|Instance Variable|This data is unique to each object. One phone's number is independent of every other phone's number.|
 |`Phone.counter += 1`|State Modification|This is the key line for the global count. We access the counter via the class name (Phone.counter) to ensure we modify the single, shared value for the entire hierarchy.|
 |`def call(self, number):`|Instance Method|This defines a behavior common to all phones. It uses `self.number` (instance data) to display which specific phone is making the call.|
+
+#### The Subclasses: `FixPhone` and `MobilePhone` (Specific Blueprints)
+The subclasses inherit the structure and behavior of Phone but add specific details and their own unique counters.
+1. `last_SN = 0` (The Unique Counter)
+In both `FixPhone` and `MobilePhone`, we define a separate `last_SN = 0`.
+   - **Concept: Class Variable (Subclass-Specific State)**.
+   - **Why it's unique**: Because `FixPhone` and `MobilePhone` are separate classes, they each get their own independent copy of `last_SN`. Incrementing `FixPhone.last_SN` has absolutely no effect on `MobilePhone.last_SN`. This lets we track serial numbers separately!
+2. `super().__init__(number)` (**The Inheritance Link**)
+   This is the most critical line for linking the subclasses to the superclass.
+   - **Concept: Explicit Superclass Initialization.**
+   - What it does: When we create a `FixPhone` object, Python executes this line, which says: "Before doing anything else, go run the Phone's `__init__` method."
+   - The Chain Reaction: This execution automatically sets `self.number` (Instance Variable) AND increments `Phone.counter` (Global Class Variable).
+3. **The Subclass's Unique Logic**
+   After calling `super().__init__`, the subclass adds its own specific logic:
+    |Code Line(s)|Concept|Detailed Explanation|
+    |---|---|---|
+    |`FixPhone.last_SN += 1`|Unique State Modification|This line increments the counter only for the `FixPhone` class. It uses the subclass name    `(FixPhone.last_SN)` to modify its unique serial number tracker.|
+    |`self.SN = 'FP-{}'.format(...)`|`Creating New Instance Data`|The subclass creates a new instance variable (`self.SN`) that did not exist in the base `Phone` class. This holds the final, unique serial number for this specific object.|
+
+**Final Execution (Putting the Concepts to Work)**
+   |Code Line(s)|Concept|Detailed Explanation|
+   |---|---|---|
+   |`fphone = FixPhone(...)`|`super()` runs, and `Phone.counter` goes to 1. Then, `FixPhone` increments `FixPhone.last_SN to 1`.|No output yet|
+   |`mphone = MobilePhone(...)`|`super()` runs, and `Phone.counter` goes to 2. Then, `MobilePhone` increments `MobilePhone.last_SN` to 1.|No output yet|
+   |`print(..., Phone.counter)`|Accesses the shared class variable.|Total number of phone devices created: 2|
+   |`print(mphone.call(...))`|Executes an inherited instance method (call) on `mphone`, accessing mphone's unique `self.number`.|Calling 01632-960004 using own number 555-2368|
+
