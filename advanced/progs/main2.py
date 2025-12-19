@@ -1,5 +1,16 @@
 from sys import path
-path.append("../packages")
+path.append("../packages/extrapack.zip")
 
-import extra.iota
-print(extra.iota.funcI())
+#import extra.good.best.sigma # oldway
+#from extra.good.best.tau import funcT # oldway
+
+# using aliases to make life easier
+import extra.good.best.sigma as sig
+import extra.good.alpha as alp
+from extra.iota import FunI
+from extra.good.beta import FunB
+
+print(sig.FunS())
+print(alp.FunA())
+print(FunI)
+print(FunB)

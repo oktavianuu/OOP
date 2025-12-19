@@ -1,0 +1,21 @@
+Hierarchy
+
+package --> collection of modules
+  |
+  |
+Moodule --> collection of function (python script)
+  |
+  |
+Function  --> python script here, the actual function script
+
+
+NOTE: We group similar function in module, then we group related module in package
+
+How to import a module?
+
+import module_path.module_name
+or 
+from module_path.module_name import spesific fucntion from that module
+
+
+
